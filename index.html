@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loan Eligibility Checker</title>
+  </head>
+
+  <body>
+    <main>
+      <div>
+        <h1>Loan Eligibility Checker</h1>
+
+        <div>
+          <label for="income">Monthly Income</label>
+          <input
+            type="number"
+            id="income"
+            min="1"
+            placeholder="Monthly income..."
+          />
+        </div>
+
+        <div>
+          <label for="score">Credit Score</label>
+          <input
+            type="number"
+            id="score"
+            min="1"
+            placeholder="Enter credit score"
+          />
+        </div>
+
+        <div>
+          <label for="amount">Loan Amount</label>
+          <input
+            type="number"
+            id="amount"
+            min="1"
+            placeholder="Enter loan amount"
+          />
+        </div>
+
+        <div>
+          <label for="term">Loan Term (in years)</label>
+          <input
+            type="number"
+            id="term"
+            min="1"
+            placeholder="Enter loan term"
+          />
+        </div>
+
+        <button id="check_eligibility">Check Eligibility</button>
+
+        <p id="result"></p>
+      </div>
+    </main>
+
+    <script>
+      const Monthly_Income = document.getElementById("income");
+      const Credit_Score = document.getElementById("score");
+      const Loan_Amount = document.getElementById("amount");
+      const Loan_Term = document.getElementById("term");
+      const Eligibility = document.getElementById("check_eligibility");
+      const Result = document.getElementById("result");
+
+      Eligibility.addEventListener("click", function () {
+        const Income = Number(Monthly_Income.value);
+        const Score = Number(Credit_Score.value);
+        const Amount = Number(Loan_Amount.value);
+        const Term = Number(Loan_Term.value);
+
+        let monthlyPayment = 0;
+
+        // Validate all input fields
+        if (
+          Monthly_Income.value.trim() === "" ||
+          Credit_Score.value.trim() === "" ||
+          Loan_Amount.value.trim() === "" ||
+          Loan_Term.value.trim() === "" ||
+          !Number.isFinite(Income) ||
+          !Number.isFinite(Score) ||
+          !Number.isFinite(Amount) ||
+          !Number.isFinite(Term) ||
+          Income <= 0 ||
+          Score <= 0 ||
+          Amount <= 0 ||
+          Term <= 0
+        ) {
+          Result.innerText = "Please enter valid values in all fields.";
+        }
+
+        // Check monthly income
+        else if (Income < 3000) {
+          Result.innerText = "Income is too low to qualify for a loan.";
+        }
+
+        // Check credit score
+        else if (Score < 650) {
+          Result.innerText = "Credit score is too low to qualify for a loan.";
+        }
+
+        // Check loan amount and loan term
+        else if (Amount <= 50000 && Term <= 15) {
+          monthlyPayment = Amount / (Term * 12);
+
+          Result.innerText = `Loan eligible! Monthly Payment: ₹${monthlyPayment.toFixed(2)}`;
+        }
+
+        // If eligibility criteria are not met
+        else {
+          Result.innerText = "Loan cannot be approved due to criteria not met.";
+        }
+      });
+    </script>
+  </body>
+</html>
